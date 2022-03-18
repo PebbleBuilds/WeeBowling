@@ -51,9 +51,12 @@ while True:
     if (buttons & cwiid.BTN_B):
         wii.rpt_mode = cwiid.RPT_BTN | cwiid.RPT_ACC
         check = 0
-        print 'Sensing acceleration...'
+        print 'Sensing acceleration. Bowl now!'
         while check == 0:
-            #print(wii.state['acc'])
+            acc = wii.state['acc']
+            if acc[1] > 160:
+                speed_percent = (acc[1]-160)/(255-160)
+                print("Motor speed:",speed_percent,"%")
             time.sleep(0.01)
             check = (buttons & cwiid.BTN_B)
         time.sleep(button_delay)
