@@ -4,7 +4,7 @@
 
 # Coded by The Raspberry Pi Guy. Work based on some of Matt Hawkins's!
 
-import cwiid, time, pdb
+import cwiid, time, pdb, math
 
 button_delay = 0.1
 
@@ -50,6 +50,26 @@ while True:
             print("Motor speed:",speed_percent,"%")
             state = "idle"
 
+    while state == "steering":
+        buttons = wii.state['buttons']
+
+        if(buttons & cwiid.BTN_2):
+            print 'CHEATING MODE DEACTIVATED'
+            state = "idle"
+            time.sleep(button_delay)
+
+        wii.rpt_mode = cwiid.RPT_BTN | cwiid.RPT_ACC
+        acc = wii.state['acc']
+
+        steering_percent = (acc[1]-128) / 35
+        if (math.abs(steering_percent) > 1):
+            steering_percent = 1 if steering_percent>0 else -1
+        if steering_percent > 0:
+            print 'steering',steering_percent,'to the left'
+        else:
+            print 'steering',steering_percent*-1,'to the right'
+        
+
     while state == "idle":
         buttons = wii.state['buttons']
 
@@ -69,6 +89,11 @@ while True:
 
         if(buttons & cwiid.BTN_RIGHT):
             print 'Right pressed'
+            time.sleep(button_delay)
+
+        if(buttons & cwiid.BTN_2):
+            print 'CHEATING MODE ACTIVATED'
+            state = "steering"
             time.sleep(button_delay)
 
         if (buttons & cwiid.BTN_B):
