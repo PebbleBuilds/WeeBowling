@@ -26,30 +26,10 @@ time.sleep(3)
 
 wii.rpt_mode = cwiid.RPT_BTN
 
+state = "idle"
+
 while True:
-
-    buttons = wii.state['buttons']
-
-    # Detects whether + and - are held down and if they are it quits the program
-    if (buttons - cwiid.BTN_PLUS - cwiid.BTN_MINUS == 0):
-        print '\nClosing connection ...'
-        # NOTE: This is how you RUMBLE the Wiimote
-        wii.rumble = 1
-        time.sleep(1)
-        wii.rumble = 0
-        exit(wii)
-
-    # The following code detects whether any of the Wiimotes buttons have been pressed and then prints a statement to the screen!
-    if (buttons & cwiid.BTN_LEFT):
-        print 'Left pressed'
-        time.sleep(button_delay)
-
-    if(buttons & cwiid.BTN_RIGHT):
-        print 'Right pressed'
-        time.sleep(button_delay)
-
-    if (buttons & cwiid.BTN_B):
-        print 'Sensing acceleration. Bowl now!'
+    while state == "bowling":
         wii.rpt_mode = cwiid.RPT_BTN | cwiid.RPT_ACC
         checks = 0
         holding = 4
@@ -65,14 +45,42 @@ while True:
                 checks+=1
             time.sleep(0.01)
             holding = (buttons & cwiid.BTN_B)
-        speed_percent = float(max_in_window-160)/float(255-160)
-        print("Motor speed:",speed_percent,"%")
-        time.sleep(button_delay)
+        if(checks == 20):
+            speed_percent = float(max_in_window-160)/float(255-160)
+            print("Motor speed:",speed_percent,"%")
+            state = "idle"
 
-    if (buttons & cwiid.BTN_MINUS):
-        print 'Minus Button pressed'
-        time.sleep(button_delay)
+    while state = "idle":
+        buttons = wii.state['buttons']
 
-    if (buttons & cwiid.BTN_PLUS):
-        print 'Plus Button pressed'
-        time.sleep(button_delay)
+        # Detects whether + and - are held down and if they are it quits the program
+        if (buttons - cwiid.BTN_PLUS - cwiid.BTN_MINUS == 0):
+            print '\nClosing connection ...'
+            # NOTE: This is how you RUMBLE the Wiimote
+            wii.rumble = 1
+            time.sleep(1)
+            wii.rumble = 0
+            exit(wii)
+
+        # The following code detects whether any of the Wiimotes buttons have been pressed and then prints a statement to the screen!
+        if (buttons & cwiid.BTN_LEFT):
+            print 'Left pressed'
+            time.sleep(button_delay)
+
+        if(buttons & cwiid.BTN_RIGHT):
+            print 'Right pressed'
+            time.sleep(button_delay)
+
+        if (buttons & cwiid.BTN_B):
+            print 'Sensing acceleration. Bowl now!'
+            state = "bowling"
+            time.sleep(button_delay)
+            
+
+        if (buttons & cwiid.BTN_MINUS):
+            print 'Minus Button pressed'
+            time.sleep(button_delay)
+
+        if (buttons & cwiid.BTN_PLUS):
+            print 'Plus Button pressed'
+            time.sleep(button_delay)
