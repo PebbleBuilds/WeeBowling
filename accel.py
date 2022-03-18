@@ -29,7 +29,6 @@ wii.rpt_mode = cwiid.RPT_BTN
 while True:
 
     buttons = wii.state['buttons']
-    pdb.set_trace()
 
     # Detects whether + and - are held down and if they are it quits the program
     if (buttons - cwiid.BTN_PLUS - cwiid.BTN_MINUS == 0):
