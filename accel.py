@@ -62,6 +62,9 @@ while True:
         acc = wii.state['acc']
 
         steering_percent = float(acc[1]-128) / float(35)
+        if (abs(steering_percent) < 0.1):
+            print 'straight!'
+            continue
         if (abs(steering_percent) > 1):
             steering_percent = 1.0 if steering_percent>0 else -1.0
         if steering_percent > 0:
