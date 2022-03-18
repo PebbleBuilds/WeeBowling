@@ -61,9 +61,9 @@ while True:
         wii.rpt_mode = cwiid.RPT_BTN | cwiid.RPT_ACC
         acc = wii.state['acc']
 
-        steering_percent = (acc[1]-128) / 35
+        steering_percent = float(acc[1]-128) / float(35)
         if (abs(steering_percent) > 1):
-            steering_percent = 1 if steering_percent>0 else -1
+            steering_percent = 1.0 if steering_percent>0 else -1.0
         if steering_percent > 0:
             print 'steering',steering_percent,'to the left'
         else:
