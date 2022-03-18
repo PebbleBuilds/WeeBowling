@@ -55,7 +55,7 @@ while True:
         window_on = False
         max_in_window = 0
         print 'Sensing acceleration. Bowl now!'
-        while holding and checks < 20:
+        while holding==0 and checks < 20:
             acc = wii.state['acc']
             if acc[1] > 160:
                 window_on = True
