@@ -50,7 +50,7 @@ while True:
             print("Motor speed:",speed_percent,"%")
             state = "idle"
 
-    while state = "idle":
+    while state == "idle":
         buttons = wii.state['buttons']
 
         # Detects whether + and - are held down and if they are it quits the program
