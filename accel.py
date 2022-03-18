@@ -50,15 +50,23 @@ while True:
 
     if (buttons & cwiid.BTN_B):
         wii.rpt_mode = cwiid.RPT_BTN | cwiid.RPT_ACC
-        check = 0
+        checks = 0
+        holding = 0
+        window_on = False
+        max_in_window = 0
         print 'Sensing acceleration. Bowl now!'
-        while check == 0:
+        while holding and checks < 20:
             acc = wii.state['acc']
             if acc[1] > 160:
-                speed_percent = (acc[1]-160)/(255-160)
-                print("Motor speed:",speed_percent,"%")
+                window_on = True
+            if window_on:
+                if max_in_window < acc[1]:
+                    max_in_window = acc[1]
+                checks+=1
             time.sleep(0.01)
-            check = (buttons & cwiid.BTN_B)
+            holding = (buttons & cwiid.BTN_B)
+        speed_percent = float(max_in_window-160)/float(255-160)
+        print("Motor speed:",speed_percent,"%")
         time.sleep(button_delay)
 
     if (buttons & cwiid.BTN_MINUS):
