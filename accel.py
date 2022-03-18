@@ -52,11 +52,11 @@ while True:
     if (buttons & cwiid.BTN_B):
         wii.rpt_mode = cwiid.RPT_BTN | cwiid.RPT_ACC
         checks = 0
-        holding = 0
+        holding = 8
         window_on = False
         max_in_window = 0
         print 'Sensing acceleration. Bowl now!'
-        while holding==0 and checks < 20:
+        while holding==8 and checks < 20:
             acc = wii.state['acc']
             if acc[1] > 160:
                 window_on = True
