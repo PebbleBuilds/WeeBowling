@@ -4,7 +4,7 @@
 
 # Coded by The Raspberry Pi Guy. Work based on some of Matt Hawkins's!
 
-import cwiid, time, pdb, math
+import cwiid, time, pdb
 
 button_delay = 0.1
 
@@ -62,7 +62,7 @@ while True:
         acc = wii.state['acc']
 
         steering_percent = (acc[1]-128) / 35
-        if (math.abs(steering_percent) > 1):
+        if (abs(steering_percent) > 1):
             steering_percent = 1 if steering_percent>0 else -1
         if steering_percent > 0:
             print 'steering',steering_percent,'to the left'
