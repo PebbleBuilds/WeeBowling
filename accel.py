@@ -10,7 +10,7 @@ button_delay = 0.1
 min_pwm = 50
 min_steering_pwm = 50
 max_pwm = 255
-
+steering_dir = None
 print 'Please press buttons 1 + 2 on your Wiimote now ...'
 time.sleep(1)
 
