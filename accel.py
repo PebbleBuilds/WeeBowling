@@ -7,6 +7,8 @@
 import cwiid, time, pdb
 
 button_delay = 0.1
+min_pwm = 50
+max_pwm = 255
 
 print 'Please press buttons 1 + 2 on your Wiimote now ...'
 time.sleep(1)
@@ -28,6 +30,13 @@ wii.rpt_mode = cwiid.RPT_BTN
 
 state = "idle"
 
+
+# Future serial code
+'''
+ser = serial.Serial('/dev/ttyACM0', 9600, timeout=1)    # replace serial port
+ser.reset_input_buffer()
+'''
+
 while True:
     while state == "bowling":
         wii.rpt_mode = cwiid.RPT_BTN | cwiid.RPT_ACC
@@ -48,6 +57,10 @@ while True:
         if(checks == 20):
             speed_percent = float(max_in_window-160)/float(255-160)
             print("Motor speed:",speed_percent,"%")
+            pwm = int(min_pwm + speed_percent*(max_pwm-min_pwm))
+            pwm_message = ((str(pwm)+" ")*4)[:-1]
+            # Future serial code
+            # ser.write(pwm_message)
             state = "idle"
 
     while state == "steering":
