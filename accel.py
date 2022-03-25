@@ -30,6 +30,19 @@ wii.rpt_mode = cwiid.RPT_BTN
 
 state = "idle"
 
+def construct_pwm_message(x_pwm, y_pwm, x_dir, y_dir):
+    '''
+    x is forward (1 forward 0 backward)
+    y is side to side (1 right 0 left)
+
+    Motor Numbering
+    Left = 0
+    Right = 1
+    Top = 2
+    Bottom = 3
+    '''
+    direction = str(x_dir)*2 + str(y_dir)*2
+    return [x_pwm, x_pwm, y_pwm, y_pwm, direction]
 
 # Future serial code
 '''
@@ -58,7 +71,7 @@ while True:
             speed_percent = float(max_in_window-160)/float(255-160)
             print("Motor speed:",speed_percent,"%")
             pwm = int(min_pwm + speed_percent*(max_pwm-min_pwm))
-            pwm_message = ((str(pwm)+" ")*4)[:-1]
+            pwm_message = construct_pwm_message(pwm, 0, 1, 0)
             # Future serial code
             # ser.write(pwm_message)
             state = "idle"
@@ -88,6 +101,7 @@ while True:
 
     while state == "idle":
         buttons = wii.state['buttons']
+        ser.write("0 0 0 0")
 
         # Detects whether + and - are held down and if they are it quits the program
         if (buttons - cwiid.BTN_PLUS - cwiid.BTN_MINUS == 0):
