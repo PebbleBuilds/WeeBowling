@@ -8,6 +8,7 @@ import cwiid, time, pdb
 
 button_delay = 0.1
 min_pwm = 50
+min_steering_pwm = 50
 max_pwm = 255
 
 print 'Please press buttons 1 + 2 on your Wiimote now ...'
@@ -70,8 +71,8 @@ while True:
         if(checks == 20):
             speed_percent = float(max_in_window-160)/float(255-160)
             print("Motor speed:",speed_percent,"%")
-            pwm = int(min_pwm + speed_percent*(max_pwm-min_pwm))
-            pwm_message = construct_pwm_message(pwm, 0, 1, 0)
+            drive_pwm = int(min_pwm + speed_percent*(max_pwm-min_pwm))
+            pwm_message = construct_pwm_message(drive_pwm, 0, 1, 0)
             # Future serial code
             # ser.write(pwm_message)
             state = "idle"
@@ -95,8 +96,12 @@ while True:
             steering_percent = 1.0 if steering_percent>0 else -1.0
         if steering_percent > 0:
             print 'steering',steering_percent,'to the left'
+            steering_dir = 0
         else:
             print 'steering',steering_percent*-1,'to the right'
+	    steering_dir = 1
+	steering_pwm = int(min_steering_pwm + speed_percent*(max_pwm-min_steering_pwm))
+        pwm_message = construct_pwm_message(drive_pwm, steering_pwm, 1, steering_dir)
         
 
     while state == "idle":
