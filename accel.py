@@ -4,7 +4,7 @@
 
 # Coded by The Raspberry Pi Guy. Work based on some of Matt Hawkins's!
 
-import cwiid, time, pdb
+import cwiid, time, pdb, serial
 
 button_delay = 0.1
 min_pwm = 50
@@ -43,7 +43,8 @@ def construct_pwm_message(x_pwm, y_pwm, x_dir, y_dir):
     Bottom = 3
     '''
     direction = str(x_dir)*2 + str(y_dir)*2
-    return [x_pwm, x_pwm, y_pwm, y_pwm, direction]
+    pwm_array = [x_pwm, x_pwm, y_pwm, y_pwm, int(direction, 2)]
+    return pwm_array
 
 # Future serial code
 '''
