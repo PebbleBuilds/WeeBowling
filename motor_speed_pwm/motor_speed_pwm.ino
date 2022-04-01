@@ -1,16 +1,18 @@
 int speeds[4] = {0,0,0,0}; //left, right, top, bottom
+byte dirs = 0;
 
-/*
-int enables[4] = {D3,D5,D6,D9};
-int pin1s[4] = {D2,D7,D10,D12};
-int pin2s[4] = {D4,D8,D11,D13};
-*/
+
+int enables[4] = {6,8,9,12};
+int pin1s[4] = {5,10,13,15};
+int pin2s[4] = {7,11,14,16};
+
 //////////////////////////////
-//Code added for compiling/testing purposes, comment out if necessary
-int dirs = 0;
+//Pinout for mega
+/*
 int enables[4] = {6,8,9,12};
 int pin1s[4] = {5,10,13,15};
 int pin2s[4] = {7,8,14,16};
+*/
 //////////////////////////////
 
 void setup() {
