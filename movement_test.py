@@ -80,3 +80,6 @@ while True:
             pwm_message = construct_pwm_message(0, 200, 0, 1)
             ser.write(pwm_message)
             time.sleep(button_delay)
+
+        while ser.in_waiting:  # Or: while ser.inWaiting():
+            print ser.readline()

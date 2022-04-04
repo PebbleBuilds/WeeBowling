@@ -1,5 +1,5 @@
 int speeds[4] = {0,0,0,0}; //left, right, top, bottom
-byte dirs = 0;
+int dirs = 0;
 
 
 int enables[4] = {6,8,9,12};
@@ -57,7 +57,10 @@ void loop() {
 
   // report status:
   Serial.print("Speeds:");
-  Serial.println(speeds);
+  Serial.print(speeds[0]);
+  Serial.print(speeds[1]);
+  Serial.print(speeds[2]);
+  Serial.print(speeds[3]);
   Serial.print("Dirs:");
-  Serial.println(dirs);
+  Serial.print(dirs);
 }
