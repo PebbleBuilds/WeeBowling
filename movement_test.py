@@ -33,17 +33,9 @@ def construct_pwm_message(x_pwm, y_pwm, x_dir, y_dir):
     Top = 2
     Bottom = 3
     '''
-    direction = ""
-    if x_dir:
-        direction += "10"
-    else:
-        direction += "01"
-    if y_dir:
-        direction += "10"
-    else:
-        direction += "01"
+    direction = str(x_dir)*2 + str(y_dir)*2
     pwm_array = [x_pwm, x_pwm, y_pwm, y_pwm, int(direction, 2)]
-    print(pwm_array)
+    pdb.set_trace()
     return bytearray(pwm_array)
 
 
