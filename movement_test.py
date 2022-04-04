@@ -39,7 +39,7 @@ def construct_pwm_message(x_pwm, y_pwm, x_dir, y_dir):
     return bytearray(pwm_array)
 
 
-ser = serial.Serial('/dev/ttyACM0', 9600, timeout=1)    # replace serial port
+ser = serial.Serial('/dev/ttyS0', 9600, timeout=1)    # replace serial port
 ser.reset_input_buffer()
 
 while True:
