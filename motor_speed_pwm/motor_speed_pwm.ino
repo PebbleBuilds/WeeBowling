@@ -54,4 +54,10 @@ void loop() {
     }
     analogWrite(enables[i],speeds[i]);
   }
+
+  // report status:
+  Serial.print("Speeds:");
+  Serial.println(speeds);
+  Serial.print("Dirs:");
+  Serial.println(dirs);
 }
