@@ -54,6 +54,11 @@ ser.reset_input_buffer()
 
 while True:
     while state == "bowling":
+        if (buttons & cwiid.BIN_A):
+            print 'STOPPING ROBOT'
+            state = 'idle'
+            time.sleep(button_delay)
+
         wii.rpt_mode = cwiid.RPT_BTN | cwiid.RPT_ACC
         checks = 0
         holding = 4
@@ -101,13 +106,13 @@ while True:
         else:
             print 'steering',steering_percent*-1,'to the right'
 	    steering_dir = 1
-	steering_pwm = int(min_steering_pwm + speed_percent*(max_pwm-min_steering_pwm))
+	    steering_pwm = int(min_steering_pwm + speed_percent*(max_pwm-min_steering_pwm))
         pwm_message = construct_pwm_message(drive_pwm, steering_pwm, 1, steering_dir)
         
 
     while state == "idle":
         buttons = wii.state['buttons']
-        ser.write("0 0 0 0")
+        ser.write(construct_pwm_messgae(0,0,0,0))
 
         # Detects whether + and - are held down and if they are it quits the program
         if (buttons - cwiid.BTN_PLUS - cwiid.BTN_MINUS == 0):
