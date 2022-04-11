@@ -13,7 +13,7 @@ max_pwm = 255
 steering_dir = None
 
 last_msg_time = 0
-msg_min_period = 0.1
+msg_min_period = 0.5
 
 
 def construct_pwm_message(x_pwm, y_pwm, x_dir, y_dir):
