@@ -2,9 +2,9 @@ int speeds[4] = {0,0,0,0}; //left, right, top, bottom
 int dirs = 0;
 
 
-int enables[4] = {3,5,9,10};
-int pin1s[4] = {2,7,11,13};
-int pin2s[4] = {4,8,12,A0};
+int enables[4] = {3,9,5,10};
+int pin1s[4] = {2,11,7,13};
+int pin2s[4] = {4,12,8,A0};
 
 //////////////////////////////
 //Pinout for mega
