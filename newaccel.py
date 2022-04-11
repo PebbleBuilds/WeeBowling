@@ -118,7 +118,7 @@ while True:
             print 'steering',steering_percent*-1,'to the right'
             steering_dir = 1
         
-        pwm_message = construct_pwm_message(drive_pwm, steering_pwm, 1, steering_dir)
+        pwm_message = construct_pwm_message(drive_pwm, steering_pwm_mag, 1, steering_dir)
         if time.time()-last_msg_time > msg_min_period:
             ser.write(pwm_message)
             last_msg_time = time.time()
