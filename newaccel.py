@@ -109,6 +109,7 @@ while True:
             if (abs(steering_percent) < 0.2):
                 print 'straight!'
                 steering_pwm = 0
+                steering_dir = 0
             elif steering_percent > 0:
                 print 'steering',steering_percent,'to the left'
                 steering_dir = 0
