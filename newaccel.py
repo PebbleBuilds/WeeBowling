@@ -39,6 +39,11 @@ def update_steering(drive_pwm, steering_pwm, steering_dir):
         return True
     return False
 
+# Future serial code
+ser = serial.Serial('/dev/ttyS0', 9600, timeout=1)    # replace serial port
+ser.reset_input_buffer()
+state = "idle"
+ser.write(construct_pwm_message(0,0,0,0))
 print 'Please press buttons 1 + 2 on your Wiimote now ...'
 time.sleep(1)
 
@@ -56,16 +61,6 @@ print 'Press PLUS and MINUS together to disconnect and quit.\n'
 time.sleep(3)
 
 wii.rpt_mode = cwiid.RPT_BTN
-
-state = "idle"
-ser.write(construct_pwm_message(0,0,0,0))
-
-
-# Future serial code
-'''
-ser = serial.Serial('/dev/ttyACM0', 9600, timeout=1)    # replace serial port
-ser.reset_input_buffer()
-'''
 
 while True:
     while state == "bowling":
