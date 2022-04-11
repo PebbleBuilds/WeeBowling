@@ -68,6 +68,7 @@ while True:
     while state == "bowling":
         if (buttons & cwiid.BTN_A):
             print 'STOPPING ROBOT'
+            drive_pwm = 0
             ser.write(construct_pwm_message(0,0,0,0))
             state = 'idle'
             time.sleep(button_delay)
@@ -105,6 +106,7 @@ while True:
 
         if (buttons & cwiid.BTN_A):
             print 'STOPPING ROBOT'
+            drive_pwm = 0
             ser.write(construct_pwm_message(0,0,0,0))
             state = 'idle'
             time.sleep(button_delay)
