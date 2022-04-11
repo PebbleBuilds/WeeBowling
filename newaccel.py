@@ -8,7 +8,7 @@ import cwiid, time, pdb, serial
 
 button_delay = 0.1
 min_pwm = 50
-steering_pwm_mag = 100
+steering_pwm_mag = 120
 max_pwm = 255
 steering_dir = None
 
@@ -100,26 +100,27 @@ while True:
             drive_pwm = 0
             ser.write(construct_pwm_message(0,0,0,0))
             state = 'idle'
-            time.sleep(button_delay)
-
-        wii.rpt_mode = cwiid.RPT_BTN | cwiid.RPT_ACC
-        acc = wii.state['acc']
-
-        steering_percent = float(acc[1]-128) / float(35)
-        if (abs(steering_percent) < 0.2):
-            print 'straight!'
-            continue
-        if (abs(steering_percent) > 1):
-            steering_percent = 1.0 if steering_percent>0 else -1.0
-        if steering_percent > 0:
-            print 'steering',steering_percent,'to the left'
-            steering_dir = 0
-        else:
-            print 'steering',steering_percent*-1,'to the right'
-            steering_dir = 1
+            time.sleep(button_delay)        
         
-        pwm_message = construct_pwm_message(drive_pwm, steering_pwm_mag, 1, steering_dir)
         if time.time()-last_msg_time > msg_min_period:
+            wii.rpt_mode = cwiid.RPT_BTN | cwiid.RPT_ACC
+            acc = wii.state['acc']
+
+            steering_percent = float(acc[1]-128) / float(35)
+            if (abs(steering_percent) < 0.2):
+                print 'straight!'
+                steering_pwm = 0
+            if (abs(steering_percent) > 1):
+                steering_percent = 1.0 if steering_percent>0 else -1.0
+            if steering_percent > 0:
+                print 'steering',steering_percent,'to the left'
+                steering_dir = 0
+                steering_pwm = steering_pwm_mag
+            else:
+                print 'steering',steering_percent*-1,'to the right'
+                steering_dir = 1
+                steering_pwm = steering_pwm_mag
+            pwm_message = construct_pwm_message(drive_pwm, steering_pwm, 1, steering_dir)
             ser.write(pwm_message)
             last_msg_time = time.time()
 
