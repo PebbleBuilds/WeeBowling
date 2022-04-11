@@ -15,7 +15,6 @@ steering_dir = None
 last_msg_time = 0
 msg_min_period = 0.5
 
-
 def construct_pwm_message(x_pwm, y_pwm, x_dir, y_dir):
     '''
     x is forward (1 forward 0 backward)
@@ -107,7 +106,7 @@ while True:
             acc = wii.state['acc']
 
             steering_percent = float(acc[1]-128) / float(35)
-            if (abs(steering_percent) < 0.2):
+            if (abs(steering_percent) < 0.3):
                 print 'straight!'
                 steering_pwm = 0
             if (abs(steering_percent) > 1):
