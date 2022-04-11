@@ -64,13 +64,11 @@ while True:
 
         if (buttons & cwiid.BTN_UP):
             print 'Going forward'
-            pwm_array[0] = 200
-            pwm_array[2] = 1
+            pwm_array = [200,0,1,0]
 
         if (buttons & cwiid.BTN_DOWN):
             print 'Going backward'
-            pwm_array[0] = 200
-            pwm_array[2] = 0
+            pwm_array = [200,0,0,0]
 
         if (buttons & cwiid.BTN_LEFT):
             print 'Going Left'
