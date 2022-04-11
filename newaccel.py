@@ -31,14 +31,6 @@ def construct_pwm_message(x_pwm, y_pwm, x_dir, y_dir):
     pwm_array = [x_pwm, x_pwm, y_pwm, y_pwm, int(direction, 2)]
     return pwm_array
 
-def update_steering(drive_pwm, steering_pwm, steering_dir):
-    pwm_message = construct_pwm_message(drive_pwm, steering_pwm_mag, 1, steering_dir)
-    if time.time()-last_msg_time > msg_min_period:
-        ser.write(pwm_message)
-        last_msg_time = time.time()
-        return True
-    return False
-
 # Future serial code
 ser = serial.Serial('/dev/ttyS0', 9600, timeout=1)    # replace serial port
 ser.reset_input_buffer()
@@ -126,7 +118,10 @@ while True:
             print 'steering',steering_percent*-1,'to the right'
             steering_dir = 1
         
-        update_steering(drive_pwm, steering_pwm_mag, steering_dir)
+        pwm_message = construct_pwm_message(drive_pwm, steering_pwm, 1, steering_dir)
+        if time.time()-last_msg_time > msg_min_period:
+            ser.write(pwm_message)
+            last_msg_time = time.time()
 
     while state == "idle":
         buttons = wii.state['buttons']
