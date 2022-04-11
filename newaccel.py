@@ -8,7 +8,7 @@ import cwiid, time, pdb, serial
 
 button_delay = 0.1
 min_pwm = 50
-steering_pwm_mag = 60
+steering_pwm_mag = 100
 max_pwm = 255
 steering_dir = None
 
