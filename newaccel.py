@@ -8,12 +8,12 @@ import cwiid, time, pdb, serial
 
 button_delay = 0.1
 min_pwm = 50
-steering_pwm_mag = 128
+steering_pwm_mag = 60
 max_pwm = 255
 steering_dir = None
 
 last_msg_time = 0
-msg_min_period = 100
+msg_min_period = 0.1
 
 
 def construct_pwm_message(x_pwm, y_pwm, x_dir, y_dir):
@@ -106,7 +106,7 @@ while True:
         acc = wii.state['acc']
 
         steering_percent = float(acc[1]-128) / float(35)
-        if (abs(steering_percent) < 0.3):
+        if (abs(steering_percent) < 0.2):
             print 'straight!'
             continue
         if (abs(steering_percent) > 1):
