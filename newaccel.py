@@ -64,6 +64,7 @@ wii.rpt_mode = cwiid.RPT_BTN
 
 while True:
     while state == "bowling":
+        buttons = wii.state['buttons']
         if (buttons & cwiid.BTN_A):
             print 'STOPPING ROBOT'
             drive_pwm = 0
