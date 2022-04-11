@@ -15,25 +15,6 @@ steering_dir = None
 last_msg_time = 0
 msg_min_period = 100
 
-print 'Please press buttons 1 + 2 on your Wiimote now ...'
-time.sleep(1)
-
-# This code attempts to connect to your Wiimote and if it fails the program quits
-try:
-    wii=cwiid.Wiimote()
-except RuntimeError:
-    print "Cannot connect to your Wiimote. Run again and make sure you are holding buttons 1 + 2!"
-    quit()
-
-print 'Wiimote connection established!\n'
-print 'Go ahead and press some buttons\n'
-print 'Press PLUS and MINUS together to disconnect and quit.\n'
-
-time.sleep(3)
-
-wii.rpt_mode = cwiid.RPT_BTN
-
-state = "idle"
 
 def construct_pwm_message(x_pwm, y_pwm, x_dir, y_dir):
     '''
@@ -57,6 +38,28 @@ def update_steering(drive_pwm, steering_pwm, steering_dir):
         last_msg_time = time.time()
         return True
     return False
+
+print 'Please press buttons 1 + 2 on your Wiimote now ...'
+time.sleep(1)
+
+# This code attempts to connect to your Wiimote and if it fails the program quits
+try:
+    wii=cwiid.Wiimote()
+except RuntimeError:
+    print "Cannot connect to your Wiimote. Run again and make sure you are holding buttons 1 + 2!"
+    quit()
+
+print 'Wiimote connection established!\n'
+print 'Go ahead and press some buttons\n'
+print 'Press PLUS and MINUS together to disconnect and quit.\n'
+
+time.sleep(3)
+
+wii.rpt_mode = cwiid.RPT_BTN
+
+state = "idle"
+ser.write(construct_pwm_message(0,0,0,0))
+
 
 # Future serial code
 '''
