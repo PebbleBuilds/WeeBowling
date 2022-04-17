@@ -4,10 +4,13 @@
 
 # Coded by The Raspberry Pi Guy. Work based on some of Matt Hawkins's!
 
-import cwiid, time, pdb
+import cwiid, time, pdb, serial
 
 button_delay = 0.1
-
+min_pwm = 50
+min_steering_pwm = 50
+max_pwm = 255
+steering_dir = None
 print 'Please press buttons 1 + 2 on your Wiimote now ...'
 time.sleep(1)
 
@@ -28,8 +31,34 @@ wii.rpt_mode = cwiid.RPT_BTN
 
 state = "idle"
 
+def construct_pwm_message(x_pwm, y_pwm, x_dir, y_dir):
+    '''
+    x is forward (1 forward 0 backward)
+    y is side to side (1 right 0 left)
+
+    Motor Numbering
+    Left = 0
+    Right = 1
+    Top = 2
+    Bottom = 3
+    '''
+    direction = str(x_dir)*2 + str(y_dir)*2
+    pwm_array = [x_pwm, x_pwm, y_pwm, y_pwm, int(direction, 2)]
+    return pwm_array
+
+# Future serial code
+'''
+ser = serial.Serial('/dev/ttyACM0', 9600, timeout=1)    # replace serial port
+ser.reset_input_buffer()
+'''
+
 while True:
     while state == "bowling":
+        if (buttons & cwiid.BIN_A):
+            print 'STOPPING ROBOT'
+            state = 'idle'
+            time.sleep(button_delay)
+
         wii.rpt_mode = cwiid.RPT_BTN | cwiid.RPT_ACC
         checks = 0
         holding = 4
@@ -48,6 +77,10 @@ while True:
         if(checks == 20):
             speed_percent = float(max_in_window-160)/float(255-160)
             print("Motor speed:",speed_percent,"%")
+            drive_pwm = int(min_pwm + speed_percent*(max_pwm-min_pwm))
+            pwm_message = construct_pwm_message(drive_pwm, 0, 1, 0)
+            # Future serial code
+            # ser.write(pwm_message)
             state = "idle"
 
     while state == "steering":
@@ -69,12 +102,17 @@ while True:
             steering_percent = 1.0 if steering_percent>0 else -1.0
         if steering_percent > 0:
             print 'steering',steering_percent,'to the left'
+            steering_dir = 0
         else:
             print 'steering',steering_percent*-1,'to the right'
+	    steering_dir = 1
+	    steering_pwm = int(min_steering_pwm + speed_percent*(max_pwm-min_steering_pwm))
+        pwm_message = construct_pwm_message(drive_pwm, steering_pwm, 1, steering_dir)
         
 
     while state == "idle":
         buttons = wii.state['buttons']
+        ser.write(construct_pwm_messgae(0,0,0,0))
 
         # Detects whether + and - are held down and if they are it quits the program
         if (buttons - cwiid.BTN_PLUS - cwiid.BTN_MINUS == 0):
